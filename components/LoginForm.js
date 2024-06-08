@@ -26,8 +26,9 @@ const LoginForm = () => {
             redirect: false
         })
             .then(res => {
+                console.log('============', res)
                 if (res.error) {
-                    setError(JSON.parse(res.error).message);
+                    setError(res.error);
                 }
                 else {
                     clearInputs();

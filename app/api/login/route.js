@@ -12,7 +12,7 @@ export async function POST(req) {
       const { email, password } = await req.json();
 
       if (!email || !password) {
-        return NextResponse.json(JSON.stringify({ error: "Missing email or password" }), { status: 400 });
+        return NextResponse.json({ error: "Missing email or password" }, { status: 400 });
       }
 
       const user = await prisma.user.findFirst({
@@ -22,7 +22,7 @@ export async function POST(req) {
       })
       // 找用户有没有
       if (!user) {
-        return NextResponse.json(JSON.stringify({ error: "User not found" }), { status: 400 });
+        return NextResponse.json({ error: "User not found" }, { status: 400 });
       }
 
       console.log(user, password)
@@ -30,16 +30,16 @@ export async function POST(req) {
       const isValid = await bcrypt.compare(password, user.password);
       console.log(isValid)
       if (!isValid) {
-        return NextResponse.json(JSON.stringify({ error: "Invalid password" }), { status: 400 });
+        return NextResponse.json({ error: "Invalid password" }, { status: 400 });
       }
       // 生成 JWT
       const { password: hashPassword, ...result } = user
 
       const token = generateJwt({ ...result })
 
-      return NextResponse.json(JSON.stringify({ user: result, token }), { status: 201 });
+      return NextResponse.json({ user: result, token }, { status: 201 });
     } catch (e) {
         console.log(e);
-        return new Response(JSON.stringify({ error: "sth wrong with login" }), { status: 400 });
+        return new Response({ error: "sth wrong with login" }, { status: 400 });
     }
 }

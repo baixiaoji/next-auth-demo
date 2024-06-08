@@ -8,7 +8,7 @@ export async function POST(req) {
       const { email, password } = await req.json();
 
       if (!email || !password) {
-        return NextResponse.json(JSON.stringify({ error: "Missing email or password" }), { status: 400 });
+        return NextResponse.json({ error: "Missing email or password" }, { status: 400 });
       }
 
       const user = await prisma.user.create({
@@ -20,10 +20,10 @@ export async function POST(req) {
 
       const {password: hashPassword, ...result } = user
 
-      return NextResponse.json(JSON.stringify({ user: result }), { status: 201 });
+      return NextResponse.json({ user: result }, { status: 201 });
 
     } catch (e) {
         console.log(e);
-        return new Response(JSON.stringify({ error: "sth wrong with register" }), { status: 400 });
+        return new Response({ error: "sth wrong with register" }, { status: 400 });
     }
 }

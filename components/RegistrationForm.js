@@ -1,6 +1,7 @@
 "use client"
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { RegisterUser } from '@/services/auth';
 
 const RegistrationForm = () => {
     const router = useRouter();
@@ -18,7 +19,16 @@ const RegistrationForm = () => {
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // register api placeholder
+        RegisterUser(email, password).then(res =>  {
+            if (res.status === 201) {
+                clearInputs();
+                console.log(res);
+                router.push("/login");
+            } else {
+                console.log(typeof res);
+                setError(res.error);
+            }
+        })
     }
 
     return (
