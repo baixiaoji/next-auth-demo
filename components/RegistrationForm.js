@@ -22,10 +22,8 @@ const RegistrationForm = () => {
         RegisterUser(email, password).then(res =>  {
             if (res.status === 201) {
                 clearInputs();
-                console.log(res);
                 router.push("/login");
             } else {
-                console.log(typeof res);
                 setError(res.error);
             }
         })

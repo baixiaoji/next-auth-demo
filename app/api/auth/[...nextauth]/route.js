@@ -41,7 +41,16 @@ const authHandlers = NextAuth({
     pages: {
         signIn: "/login",
         register: "/register"
-    }
+    },
+    callbacks: {
+        async jwt({ token, user}) {
+            return { ...token, ...user }
+        },
+        async session({ session, token }) {
+            session.user = token
+            return session
+        }
+    },
 })
 
 export { authHandlers as GET, authHandlers as POST}

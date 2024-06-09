@@ -25,10 +25,8 @@ export async function POST(req) {
         return NextResponse.json({ error: "User not found" }, { status: 400 });
       }
 
-      console.log(user, password)
       // 看密码对不对
       const isValid = await bcrypt.compare(password, user.password);
-      console.log(isValid)
       if (!isValid) {
         return NextResponse.json({ error: "Invalid password" }, { status: 400 });
       }
@@ -37,7 +35,9 @@ export async function POST(req) {
 
       const token = generateJwt({ ...result })
 
-      return NextResponse.json({ user: result, token }, { status: 201 });
+      return NextResponse.json({ user: {
+        ...result, accessToken: token
+      } }, { status: 201 });
     } catch (e) {
         console.log(e);
         return new Response({ error: "sth wrong with login" }, { status: 400 });

@@ -26,7 +26,7 @@ const LoginForm = () => {
             redirect: false
         })
             .then(res => {
-                console.log('============', res)
+    
                 if (res.error) {
                     setError(res.error);
                 }
